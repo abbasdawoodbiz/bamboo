@@ -1,0 +1,13 @@
+.root {
+    width: 100%;
+    button {
+        outline: none !important;
+        border : none !important;
+    }
+}
+
+.label, .value{
+    display: block;
+    clear: both;
+    min-width: 200px;
+}

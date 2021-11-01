@@ -1,0 +1,20 @@
+.bz-page-title {
+    margin-bottom: 0 !important;
+}
+
+.bz-action-holder {
+    text-align: end;
+}
+
+.bz-page-header{
+    padding: 0 !important;
+    a{
+        margin-right: 8px;
+        &:last-child{
+            margin-right: 0;
+        }
+        img{
+            margin-right: 4px;
+        }
+    }
+}
