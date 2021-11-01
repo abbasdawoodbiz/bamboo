@@ -20,8 +20,10 @@ const MetaRow = props => {
   return (
     <div className={style.root}>
       <Row align="bottom">
-        <Col span="22">
+        <Col>
           <Text strong className={style.label}>{props.label}</Text>
+        </Col>
+        <Col span="22">
           {!edit && <Text className={style.value}>{props.value}</Text>}
           {edit && <Input
             placeholder={props.placeholder}
@@ -31,10 +33,9 @@ const MetaRow = props => {
               props.loading && <LoadingOutlined />
             }
           />}
-          {props.aboutText && <Text type="secondary">{props.aboutText}</Text>}
         </Col>
         <Col span="2">
-          {!edit &&
+          {!edit && props.editable && 
             <Button
               shape="circle"
               icon={<EditOutlined />}
@@ -50,6 +51,9 @@ const MetaRow = props => {
             />
           }
         </Col>
+        <Col>
+          {props.aboutText && <Text type="secondary">{props.aboutText}</Text>}
+        </Col>
       </Row>
     </div>
   );
@@ -59,7 +63,8 @@ MetaRow.defaultProps = {
   label: 'Label',
   value: 'Something',
   placeholder: 'Some placeholder',
-  loading: false
+  loading: false,
+  editable: false
 };
 
 MetaRow.propTypes = {
@@ -67,7 +72,8 @@ MetaRow.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   placeholder: PropTypes.string,
   onSubmit: PropTypes.func,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  editable: PropTypes.bool
 };
 
 export default MetaRow;

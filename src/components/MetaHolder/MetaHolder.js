@@ -31,7 +31,12 @@ const MetaHolder = props => {
   return (
     <div className={style.root}>
       <Card title="Some card title" type="inner">
-        <MetaRow label="Vendor name" value="Pankaj Traders" onSubmit={doSomething}/>
+        <MetaRow 
+          label="Vendor name" 
+          value="Pankaj Traders" 
+          onSubmit={doSomething}
+          aboutText="Some nice description to help people"
+          />
       </Card>
     </div>
   );
