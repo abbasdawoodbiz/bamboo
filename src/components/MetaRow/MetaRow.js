@@ -28,6 +28,7 @@ const MetaRow = props => {
           {edit && <Input
             placeholder={props.placeholder}
             onPressEnter={doEdit}
+            disabled={props.loading}
             value={props.value}
             suffix={
               props.loading ?
