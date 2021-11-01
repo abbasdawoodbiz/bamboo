@@ -5,7 +5,7 @@ import style from './MetaRow.module.scss';
 import { Input, Typography, Row, Col, Button } from 'antd';
 import { CheckOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
 
-const { Text } = Typography;
+const { Text, Paragraph } = Typography;
 
 const MetaRow = props => {
   const [edit, setEdit] = useState(false)
@@ -23,36 +23,40 @@ const MetaRow = props => {
         <Col>
           <Text strong className={style.label}>{props.label}</Text>
         </Col>
-        <Col span="22">
+        <Col span={edit ? 24 : 22}>
           {!edit && <Text className={style.value}>{props.value}</Text>}
           {edit && <Input
             placeholder={props.placeholder}
             onPressEnter={doEdit}
             value={props.value}
             suffix={
-              props.loading && <LoadingOutlined />
+              props.loading ?
+                <LoadingOutlined /> :
+                <CheckOutlined
+                  size="small"
+                  onClick={doEdit}
+                />
             }
           />}
         </Col>
-        <Col span="2">
-          {!edit && props.editable && 
-            <Button
-              shape="circle"
-              icon={<EditOutlined />}
-              size="small"
-              onClick={doEdit}
-            />}
-          {edit &&
-            <Button
-              shape="circle"
-              icon={<CheckOutlined />}
-              size="small"
-              onClick={doEdit}
-            />
-          }
-        </Col>
+        {
+          !edit && <Col span="2">
+            {props.editable &&
+              <Button
+                shape="circle"
+                icon={<EditOutlined />}
+                size="small"
+                onClick={doEdit}
+              />}
+          </Col>
+        }
         <Col>
-          {props.aboutText && <Text type="secondary">{props.aboutText}</Text>}
+          {props.aboutText && !edit &&
+            <Paragraph
+              ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}
+              type="secondary">
+              {props.aboutText}
+            </Paragraph>}
         </Col>
       </Row>
     </div>
@@ -64,7 +68,7 @@ MetaRow.defaultProps = {
   value: 'Something',
   placeholder: 'Some placeholder',
   loading: false,
-  editable: false
+  editable: true
 };
 
 MetaRow.propTypes = {
