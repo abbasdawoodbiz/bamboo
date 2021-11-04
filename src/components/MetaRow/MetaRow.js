@@ -2,10 +2,15 @@ import { React, useState } from 'react';
 import PropTypes from 'prop-types';
 import style from './MetaRow.module.scss';
 
-import { Input, Typography, Row, Col, Button } from 'antd';
+import { Input, Typography, Row, Col, Button, Select } from 'antd';
 import { CheckOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons';
 
 const { Text, Paragraph } = Typography;
+const { Option } = Select;
+
+function handleChange(value) {
+  console.log(`selected ${value}`);
+}
 
 const MetaRow = props => {
   const [edit, setEdit] = useState(false)
@@ -25,7 +30,7 @@ const MetaRow = props => {
         </Col>
         <Col span={edit ? 24 : 22}>
           {!edit && <Text className={style.value}>{props.value}</Text>}
-          {edit && <Input
+          {edit && props.type === 'text' && <Input
             placeholder={props.placeholder}
             onPressEnter={doEdit}
             disabled={props.loading}
@@ -39,6 +44,24 @@ const MetaRow = props => {
                 />
             }
           />}
+          {edit && props.type === 'select' &&
+            <Select defaultValue="lucy"
+              style={{ width: '100%' }}
+              onChange={handleChange}>
+              <Option value="jack">Jack</Option>
+              <Option value="lucy">Lucy</Option>
+              <Option value="Yiminghe">yiminghe</Option>
+            </Select>}
+            {edit && props.type === 'multiselect' &&
+            <Select defaultValue="lucy"
+              style={{ width: '100%' }}
+              mode="multiple"
+              bordered={false}
+              onChange={handleChange}>
+              <Option value="jack">Jack</Option>
+              <Option value="lucy">Lucy</Option>
+              <Option value="Yiminghe">yiminghe</Option>
+            </Select>}
         </Col>
         {
           !edit && <Col span="2">
@@ -69,7 +92,8 @@ MetaRow.defaultProps = {
   value: 'Something',
   placeholder: 'Some placeholder',
   loading: false,
-  editable: true
+  editable: true,
+  type: 'text'
 };
 
 MetaRow.propTypes = {
@@ -78,7 +102,8 @@ MetaRow.propTypes = {
   placeholder: PropTypes.string,
   onSubmit: PropTypes.func,
   loading: PropTypes.bool,
-  editable: PropTypes.bool
+  editable: PropTypes.bool,
+  type: PropTypes.oneOf(['text', 'number', 'select', 'typeahead', 'multiselect'])
 };
 
 export default MetaRow;
