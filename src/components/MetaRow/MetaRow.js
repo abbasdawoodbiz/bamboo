@@ -8,17 +8,27 @@ import { CheckOutlined, EditOutlined, LoadingOutlined } from '@ant-design/icons'
 const { Text, Paragraph } = Typography;
 const { Option } = Select;
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-
 const MetaRow = props => {
   const [edit, setEdit] = useState(false)
 
   const doEdit = (e) => {
     setEdit(!edit)
-    if (e && e.target.value) {
-      props.onSubmit(e.target.value)
+    if(typeof e === 'object'){
+        props.onSubmit(e.target.value)
+    } else {
+      props.onSubmit(e)
+    }
+  }
+
+  const options = [];
+
+  if (props.options && props.options.length) {
+
+
+    for (let i = 0; i < props.options.length; i++) {
+      options.push(
+        <Option value={props.options[i]} key={props.options[i]}>{props.options[i]}</Option>
+      )
     }
   }
 
@@ -45,22 +55,18 @@ const MetaRow = props => {
             }
           />}
           {edit && props.type === 'select' &&
-            <Select defaultValue="lucy"
+            <Select defaultValue={props.value}
               style={{ width: '100%' }}
-              onChange={handleChange}>
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="Yiminghe">yiminghe</Option>
+              onChange={doEdit}>
+              {options}
             </Select>}
-            {edit && props.type === 'multiselect' &&
-            <Select defaultValue="lucy"
+          {edit && props.type === 'multiselect' &&
+            <Select defaultValue={props.value}
               style={{ width: '100%' }}
               mode="multiple"
               bordered={false}
-              onChange={handleChange}>
-              <Option value="jack">Jack</Option>
-              <Option value="lucy">Lucy</Option>
-              <Option value="Yiminghe">yiminghe</Option>
+              onChange={doEdit}>
+              {options}
             </Select>}
         </Col>
         {
@@ -103,7 +109,8 @@ MetaRow.propTypes = {
   onSubmit: PropTypes.func,
   loading: PropTypes.bool,
   editable: PropTypes.bool,
-  type: PropTypes.oneOf(['text', 'number', 'select', 'typeahead', 'multiselect'])
+  type: PropTypes.oneOf(['text', 'number', 'select', 'typeahead', 'multiselect']),
+  options: PropTypes.array
 };
 
 export default MetaRow;
